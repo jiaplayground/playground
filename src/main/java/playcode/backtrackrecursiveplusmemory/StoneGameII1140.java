@@ -1,5 +1,7 @@
 package playcode.backtrackrecursiveplusmemory;
 
+import org.junit.jupiter.api.Test;
+
 public class StoneGameII1140 {
     public int stoneGameII(int[] piles) {
         int size = piles.length;
@@ -27,6 +29,47 @@ public class StoneGameII1140 {
         }
         memo[left][m] = max;
         return max;
+    }
+
+    private static final int MAX_PICK = 3;
+
+    public String stoneGameIII(int[] stoneValue) {
+
+        int size = stoneValue.length;
+        Integer[] memo = new Integer[size + 1];
+        int[] sufSum = new int[size + 1];
+        int total = 0;
+        for (int i = size - 1; i >= 0; i--) {
+            sufSum[i] = sufSum[i + 1] + stoneValue[i];
+            total += stoneValue[i];
+        }
+        int AliceMax = getMaxStone(0, stoneValue, memo, sufSum);
+        if (AliceMax * 2 == total) return "Tie";
+        if (AliceMax > total - AliceMax) return "Alice";
+        return "Bob";
+
+    }
+
+    int getMaxStone(int from, int[] stoneValue, Integer[] memo, int[] sufSum) {
+        int size = stoneValue.length;
+        if (from >= size) {
+            return 0;
+        }
+        if (memo[from] != null) return memo[from];
+        int max = Integer.MIN_VALUE;
+        int sum = 0;
+        for (int i = from; i < Math.min(size, from + MAX_PICK); i++) {
+            sum += stoneValue[i];
+            max = Math.max(max, sum + sufSum[i + 1] - getMaxStone(i + 1, stoneValue, memo, sufSum));
+        }
+        memo[from] = max;
+        return max;
+    }
+
+    @Test
+    void te() {
+        StoneGameII1140 sg = new StoneGameII1140();
+        sg.stoneGameIII(new int[]{1, 2, 3, 7});
     }
 
 }
