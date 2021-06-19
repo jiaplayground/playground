@@ -7,6 +7,10 @@ public class EarliestLatestRoundsPlayersCompete1900 {
     Set<String> seen = new HashSet<>();
     int first;
     int second;
+
+    //In the first try I use
+    // Collections.sort(current);  it is wrong. Should not mutate the current list
+
     public int[] earliestAndLatest(int n, int firstPlayer, int secondPlayer) {
         this.first = firstPlayer;
         this.second = secondPlayer;
