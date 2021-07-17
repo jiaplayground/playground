@@ -13,6 +13,8 @@ public class PalindromeLinkedList234 {
         if(right ==null){
             return true;
         }
+        //this code will visit the most right node first.
+        //when it reach the most right node, the left is the head
         boolean isPal = check(right.next);
         if(!isPal) return false;
         if(left.val != right.val) return false;
